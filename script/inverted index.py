@@ -26,7 +26,7 @@ fd.write("{")
 #for i,j in dictionary.items():
 #	fd.write("\""+i+"\""+":"+str(j)+"\n")
 stopwords = stopwords.words('english')
-symbols = ['!','@','#','$','%','^','&','*','(',')','-','+','=','?',':',':',',','.','/','\\','\"','\'','`','~']
+symbols = ['!' , '@' , '#' , '$' , '%' , '^' , '&' , '*' , '(' , ')' , '-' , '+' , '=' , '?' ,  ';' , ':' , ',' , '.' , '/' , '\\' , '\"' , '\'' , '`' , '~']
 stopwords.extend(symbols)
 for i in key:
 	if(i not in stopwords):
