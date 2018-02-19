@@ -4,6 +4,7 @@
                                                                             '''
 
 import re
+import nltk
 import requests
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -11,7 +12,7 @@ from gensim import corpora, models
 
 def getLinks(keyword):
 
-    '''Used to fetch Wikipedia links. Not used currently.'''
+    '''Used to fetch Wikipedia links. Needs modification.'''
     baseurl = 'http://en.wikipedia.org/w/api.php'
     my_atts = {}
     my_atts['action'] = 'query'
@@ -26,6 +27,7 @@ def getLinks(keyword):
     for i in data['query']['search']:
         link = "https://en.wikipedia.org/?curid="+str(i['pageid'])
         print(i['title'], "\t", link)
+    
 
 def cleanup(string):
 
@@ -36,18 +38,19 @@ def cleanup(string):
     words.pop()
     return words
 
-def trylda(clean_words):
+def tryLda(cleanWords):
 
-    '''Main LDA Algorithm. Have to fix output format.'''
+    '''Main LDA Algorithm. Not usable for now.'''
     word_list = []
     keywords = []
     something = ""
-    for i in clean_words:
-        word_list.append(clean_words)
+    qWords = ["What", "Where", "Who", "How", "When", "Why" ]
+    for i in cleanWords:
+        word_list.append(cleanWords)
     dictionary = corpora.Dictionary(word_list)
     corpus = [dictionary.doc2bow(i) for i in word_list]
     ldamodel = models.ldamodel.LdaModel(
-        corpus, num_topics=1, id2word=dictionary, passes=6)
+        corpus, num_topics=1, id2word=dictionary, passes=1)
     keys = ldamodel.print_topics(num_words=3)
     for i in keys:
         keystring = i[1]
@@ -56,15 +59,28 @@ def trylda(clean_words):
     for i in keystring:
         if pattern.match(i):
             keywords.append(i)
+    keywords = [i for i in keywords if i not in qWords]
     return keywords
+
+def posTag(cleanWords):
+
+    '''Parts of Speech tagging. Useful for pulling keywords.'''
+    keywords = []
+    tags = nltk.pos_tag(cleanWords)
+    for i in tags:
+        if i[1] == "NNP" or i[1]=="NNS" or i[1]=="NN":
+            keywords.append(i[0])
+    print(keywords)
 
 def initialize():
 
     '''Start of script.'''
     question = input("Enter question.(End question with ?)\n")
-    clean_words = cleanup(question)
-    keywords = trylda(clean_words)
+    cleanWords = cleanup(question)
+    #keywords = tryLda(cleanWords)
+    keywords = posTag(cleanWords)
     for i in keywords:
+        print("Keyword->",i)
         getLinks(i)
 
 if __name__ == '__main__':
