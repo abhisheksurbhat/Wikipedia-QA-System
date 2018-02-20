@@ -3,31 +3,41 @@
         Written By - Abhishek Surbhat
                                                                             '''
 
+import getArticle
 import re
 import nltk
 import requests
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from gensim import corpora, models
+from bs4 import BeautifulSoup
 
 def getLinks(keyword):
 
     '''Used to fetch Wikipedia links. Needs modification.'''
+    links = []
     baseurl = 'http://en.wikipedia.org/w/api.php'
     my_atts = {}
     my_atts['action'] = 'query'
     my_atts['format'] = 'json'
     my_atts['srsearch'] = keyword
     my_atts['list'] = 'search'
-    my_atts['srlimit'] = 2
+    my_atts['srlimit'] = 1
 
     resp = requests.get(baseurl, params=my_atts)
-    #print(resp.url)
     data = resp.json()
     for i in data['query']['search']:
         link = "https://en.wikipedia.org/?curid="+str(i['pageid'])
         print(i['title'], "\t", link)
+        links.append(link)
+    return links
+
+def storeArticles(links):
     
+    '''Fetch Articles from Wiki.'''
+    for i in links:
+        for j in i:
+            getArticle.Data(j)
 
 def cleanup(string):
 
@@ -70,18 +80,19 @@ def posTag(cleanWords):
     for i in tags:
         if i[1] == "NNP" or i[1]=="NNS" or i[1]=="NN":
             keywords.append(i[0])
-    print(keywords)
+    return keywords
 
 def initialize():
 
     '''Start of script.'''
+    links = []
     question = input("Enter question.(End question with ?)\n")
     cleanWords = cleanup(question)
-    #keywords = tryLda(cleanWords)
     keywords = posTag(cleanWords)
     for i in keywords:
         print("Keyword->",i)
-        getLinks(i)
+        links.append(getLinks(i))
+    storeArticles(links)
 
 if __name__ == '__main__':
     initialize()
