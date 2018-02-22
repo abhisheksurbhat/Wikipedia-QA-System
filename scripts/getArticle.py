@@ -34,7 +34,7 @@ def Data(url):
     file2.close()
     file1 = open("newfile.txt",'r')
     op = open("final.txt",'w')
-    new = BeautifulSoup(file1)
+    new = BeautifulSoup(file1,"html5lib")
     for line in new:
         random = line.get_text()
         op.write(str(random))

@@ -43,9 +43,9 @@ def cleanup(string):
 
     '''Used to clean up the sentence(i.e. to remove stop words and formatters)'''
     words = word_tokenize(string)
-    stop_words = stopwords.words('english')
-    words = [i for i in words if i not in stop_words]
-    words.pop()
+    #stop_words = stopwords.words('english')
+    #words = [i for i in words if i not in stop_words]
+    #words.pop()
     return words
 
 def tryLda(cleanWords):
