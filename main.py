@@ -2,16 +2,16 @@
         Main script to run Document Retriever.
                                                             '''
 import os
-import extract
-import getArticle
+import scripts.extract
+import scripts.getArticle
 
 def main():
     
     '''Main function.'''
     print("\t\t\tDocument Retriever.\nEnter the question to be searched.\n")
-    baseDir = "/home/abhishek/Projects/Wikipedia-QA-System/"
-    resultDir = baseDir+"results"
-    scriptDir = baseDir+"scripts"
+    baseDir = os.path.realpath('.')
+    resultDir = baseDir+"/results"
+    scriptDir = baseDir+"/scripts"
     linkList = []
     titleList = []
     fileList = []
