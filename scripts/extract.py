@@ -10,12 +10,10 @@ import requests
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from gensim import corpora, models
-from bs4 import BeautifulSoup
 
 def getLinks(keyword):
 
     '''Used to fetch Wikipedia links. Needs modification.'''
-    links = []
     baseurl = 'http://en.wikipedia.org/w/api.php'
     my_atts = {}
     my_atts['action'] = 'query'
@@ -26,22 +24,16 @@ def getLinks(keyword):
 
     resp = requests.get(baseurl, params=my_atts)
     data = resp.json()
+    print("Keyword:->",keyword)
     for i in data['query']['search']:
         link = "https://en.wikipedia.org/?curid="+str(i['pageid'])
         print(i['title'], "\t", link)
-        links.append(link)
-    return links
-
-def storeArticles(links):
-    
-    '''Fetch Articles from Wiki.'''
-    for i in links:
-        for j in i:
-            getArticle.Data(j)
+    return i['title'], link
 
 def cleanup(string):
 
     '''Used to clean up the sentence(i.e. to remove stop words and formatters)'''
+    print("Cleaning up sentence...\n")
     words = word_tokenize(string)
     #stop_words = stopwords.words('english')
     #words = [i for i in words if i not in stop_words]
@@ -72,27 +64,24 @@ def tryLda(cleanWords):
     keywords = [i for i in keywords if i not in qWords]
     return keywords
 
+def bigram(keywords):
+
+    '''Converts keywords to bigrams for search.'''
+    print("Converting keywords to bigrams...\n")
+    bigrams = nltk.bigrams(keywords)
+    return list(bigrams)
+
 def posTag(cleanWords):
 
     '''Parts of Speech tagging. Useful for pulling keywords.'''
+    print("Tagging sentence and extracting keywords...\n")
     keywords = []
+    nouns = []
     tags = nltk.pos_tag(cleanWords)
     for i in tags:
         if i[1] == "NNP" or i[1]=="NNS" or i[1]=="NN":
             keywords.append(i[0])
-    return keywords
-
-def initialize():
-
-    '''Start of script.'''
-    links = []
-    question = input("Enter question.(End question with ?)\n")
-    cleanWords = cleanup(question)
-    keywords = posTag(cleanWords)
-    for i in keywords:
-        print("Keyword->",i)
-        links.append(getLinks(i))
-    storeArticles(links)
-
-if __name__ == '__main__':
-    initialize()
+    for i in tags:
+        if i[1] == "NNP":
+            nouns.append(i[0])
+    return nouns, keywords

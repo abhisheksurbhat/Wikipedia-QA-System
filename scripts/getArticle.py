@@ -1,10 +1,12 @@
 import nltk
 import re
-import sys
+import os
 from urllib import request
 from bs4 import BeautifulSoup
 
-def Data(url):
+def Data(title, url):
+
+    print("Fetching ",title)
     sentence_words = []
     waste = []
     more_waste = []
@@ -26,16 +28,17 @@ def Data(url):
     for line in para:
         sentence_words.append(line)
 
-
     for i in sentence_words:
         file2.write(str(i))
         file2.write("\n")
 
     file2.close()
     file1 = open("newfile.txt",'r')
-    op = open("final.txt",'w')
+    filename = title+".txt"
+    op = open(filename,'w')
     new = BeautifulSoup(file1,"html5lib")
     for line in new:
         random = line.get_text()
         op.write(str(random))
+    file1.close()
     op.close()
