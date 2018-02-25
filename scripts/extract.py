@@ -3,7 +3,6 @@
         Written By - Abhishek Surbhat
                                                                             '''
 
-import getArticle
 import re
 import nltk
 import requests

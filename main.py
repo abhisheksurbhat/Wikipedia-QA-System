@@ -2,8 +2,8 @@
         Main script to run Document Retriever.
                                                             '''
 import os
-import scripts.extract
-import scripts.getArticle
+import scripts.extract as extract
+import scripts.getArticle as getArticle
 
 def main():
     
@@ -34,8 +34,8 @@ def main():
          fileList.append(fileString)
     print("Fetching Articles...\n")
     os.chdir(resultDir)
-    for i in range(len(linkList)):
-        getArticle.Data(titleList[i], linkList[i])
+    for i in range(len(fileList)):
+        getArticle.Data(fileList[i], linkList[i])
     os.remove('newfile.txt')
 
 if __name__ == '__main__' :
