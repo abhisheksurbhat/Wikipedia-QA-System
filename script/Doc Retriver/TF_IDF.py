@@ -1,28 +1,30 @@
 from nltk.corpus import PlaintextCorpusReader as pr
 import nltk
 import math
-root = "d:/data/part2/doc"
-para_list = pr(root,'.*')
-fileslist = para_list.fileids()
 #exit()
 
 	#-----------------------calculate TF-IDF-----------------------------#
-def calculateScore(tf,df):
+def calculateScore(tf,df):			# given TF and DF claculating tf-idf for each document 
 	for i in tf.keys():
 		#print('\n',i)
 		s = 0
 		for j in df.keys():
 			try:
-				score = (1+math.log( tf[i][j] / sum(tf[i].values()) )) / ( math.log(1 / df[j]) )	
+				score = (1+math.log( tf[i][j] / sum(tf[i].values()) )) / ( math.log(1 / df[j]) )	#try to write it mathematically
 				s += score
 				#print(j,score,sep='-')
 			except:
 				pass
-		print(i,'--->',s,sep=' ')
+		print(i,'--->',s,sep=' ')		#printing each document score
 
 
 
 def unigrams(keys):
+
+	root = "d:/data/part2/doc"
+	para_list = pr(root,'.*')
+	fileslist = para_list.fileids()		# try yourself
+	
 	df = {}
 	tf = {}
 	for i in keys:
@@ -53,7 +55,12 @@ def unigrams(keys):
 
 # unigrams(['What','is','the','oldest','structure','at','Notre','Dame'])
 
-def bigrams(keys):
+def bigrams(keys):			# try yourself
+	
+	root = "d:/data/part2/doc"
+	para_list = pr(root,'.*')
+	fileslist = para_list.fileids()
+	
 	df = {}
 	tf = {}
 	keys = list(nltk.bigrams(keys))
