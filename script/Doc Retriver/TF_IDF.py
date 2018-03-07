@@ -17,13 +17,16 @@ def calculateScore(tf,df):			# given TF and DF claculating tf-idf for each docum
 				pass
 		print(i,'--->',s,sep=' ')		#printing each document score
 
-
+def get_files():
+	root = "./doc"
+	para_list = pr(root,'.*')
+	fileslist = para_list.fileids()
+	#print(fileslist)
+	return root,para_list,fileslist
 
 def unigrams(keys):
 
-	root = "d:/data/part2/doc"
-	para_list = pr(root,'.*')
-	fileslist = para_list.fileids()		# try yourself
+	root,para_list,fileslist = get_files()		# try yourself
 	
 	df = {}
 	tf = {}
@@ -57,9 +60,7 @@ def unigrams(keys):
 
 def bigrams(keys):			# try yourself
 	
-	root = "d:/data/part2/doc"
-	para_list = pr(root,'.*')
-	fileslist = para_list.fileids()
+	root,para_list,fileslist = get_files()
 	
 	df = {}
 	tf = {}

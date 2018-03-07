@@ -1,15 +1,13 @@
 from nltk.tokenize import word_tokenize
 import nltk
-def tokenize(string):
-
-    '''just converting sentence to words'''
+def tokenize(string):                                                                   #just converting sentence to words
     print("Tokinizing the sentence................")
     words = word_tokenize(string)
     words.pop()                                                                             # removing ? symbol
     return words
 
 def postag(words):
-	print("Tagging sentence and extracting keywords...\n")
+	print("Tagging sentence and extracting keywords...............")
 	tags = nltk.pos_tag(words)
 	badwords = ['IN','TO','WP','VBD','DT','VBP','CD','VBZ','WDT','WRB','"',',','(',')',':']	# these pos tagged words are removed
 	keywords = []
@@ -26,6 +24,8 @@ def bigram(keywords):
     key = []
     for i in bigrams:
     	key.append(i[0]+" "+i[1])                                              #making a search term for wikipedia search
+
+    
     return key
 
 

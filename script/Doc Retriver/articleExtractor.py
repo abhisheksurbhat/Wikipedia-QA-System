@@ -14,12 +14,12 @@ def  getArticles(keywords):
 	print("Fetching Articles.............")
 	link = []
 	for i in keywords:
-		print(i)
+		# print(i)
 		my_atts['srsearch'] = i 				# giving search term
 		resp = requests.get(baseurl, params=my_atts)
 		data = resp.json()
 		for i in data['query']['search']:			# getting the list of all links
-			link.append("https://en.wikipedia.org/?curid="+str(i['pageid']))
+			link.append("https://en.wikipedia.org/?curid="+str(i['pageid']))	# a bug here title and repeated results
 			# print(i['title'], "\t", link)
 	count = 0
 	for url in link:						# writing articles to files
@@ -28,10 +28,10 @@ def  getArticles(keywords):
 		raw = BeautifulSoup(html, 'html.parser')
 		# fp = open("doc/"+str(count)+".txt","a",encoding='utf8')
 		para = raw.find_all("p")
-		count1 = 0
+		fp = open("doc/"+str(count)+".txt","a",encoding='utf8')
 		for i in para:
-			fp = open("doc/"+str(count)+".txt","a",encoding='utf8')		# writing to the file each paragraph in the article
-			fp.write(i.get_text())
+			fp.write(i.get_text())			# writing to the file each paragraph in the article
+			
 		#count1 += 1
 		fp.close()
 		count+=1

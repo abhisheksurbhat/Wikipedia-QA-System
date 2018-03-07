@@ -2,8 +2,8 @@
         Main script to run Document Retriever.
                                                             '''
 import os
-import scripts.extract as extract
-import scripts.getArticle as getArticle
+#import scripts.extract as extract
+#mport scripts.getArticle as getArticle
 import questionProcessor as QP
 import articleExtractor as AE
 import TF_IDF
@@ -24,7 +24,9 @@ def main():
     query_keys = QP.bigram(keywords)				# making search keys into two keys to search wikipedia
 
     if(len(query_keys) == 0):       					# if there is only one key element bigram cannot happen
-        query_keys = keywords					
+        query_keys = keywords
+
+    print("search keys are : ",query_keys)					
 
 #---------------------------Question Processing  Done-------------------------#
 
