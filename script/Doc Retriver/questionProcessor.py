@@ -27,5 +27,3 @@ def bigram(keywords):
 
     
     return key
-
-
